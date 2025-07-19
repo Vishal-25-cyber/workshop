@@ -44,7 +44,7 @@ export default function Dashboard() {
     <>
       <NavBar />
       <div className="auth-container">
-        <h2>Add Passwords</h2>
+        <h2>Add Password</h2>
         {loginMessage && <div className="alert">{loginMessage}</div>}
         {success && <div className="alert">{success}</div>}
         <form className="auth-form" onSubmit={handleAdd}>

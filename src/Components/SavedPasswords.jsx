@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import "./Auth.css";
-
-// ✅ Import icons from react-icons
-import { FaFacebook, FaGoogle, FaGithub, FaTwitter, FaInstagram, FaYoutube, FaLinkedin, FaGlobe } from "react-icons/fa";
-
-// 🔥 Helper to map site name to icon component
-const getSiteIcon = (site) => {
-  const name = site.toLowerCase();
-  if (name.includes("facebook")) return <FaFacebook color="#1877f2" size={20} />;
-  if (name.includes("google")) return <FaGoogle color="#db4437" size={20} />;
-  if (name.includes("github")) return <FaGithub color="#333" size={20} />;
-  if (name.includes("twitter")) return <FaTwitter color="#1da1f2" size={20} />;
-  if (name.includes("instagram")) return <FaInstagram color="#e1306c" size={20} />;
-  if (name.includes("youtube")) return <FaYoutube color="#ff0000" size={20} />;
-  if (name.includes("linkedin")) return <FaLinkedin color="#0077b5" size={20} />;
-  return <FaGlobe color="#555" size={20} />; // default
-};
+import {
+  FaInstagram,
+  FaFacebook,
+  FaGoogle,
+  FaTwitter,
+  FaLinkedin,
+  FaGithub,
+  FaYoutube,
+  FaSnapchatGhost,
+  FaLock,
+} from "react-icons/fa";
 
 export default function SavedPasswords() {
   const [entries, setEntries] = useState([]);
@@ -33,6 +28,19 @@ export default function SavedPasswords() {
     setEntries(updated);
   };
 
+  const getSiteIcon = (site) => {
+    const name = site.toLowerCase();
+    if (name.includes("instagram")) return <FaInstagram color="#E4405F" />;
+    if (name.includes("facebook")) return <FaFacebook color="#1877F2" />;
+    if (name.includes("google")) return <FaGoogle color="#DB4437" />;
+    if (name.includes("twitter")) return <FaTwitter color="#1DA1F2" />;
+    if (name.includes("linkedin")) return <FaLinkedin color="#0077B5" />;
+    if (name.includes("github")) return <FaGithub color="#333" />;
+    if (name.includes("youtube")) return <FaYoutube color="#FF0000" />;
+    if (name.includes("snapchat")) return <FaSnapchatGhost color="#FFFC00" />;
+    return <FaLock color="#003366" />;
+  };
+
   return (
     <>
       <NavBar />
@@ -44,8 +52,10 @@ export default function SavedPasswords() {
           <ul>
             {entries.map((entry, index) => (
               <li key={index}>
-                <strong>Site:</strong> {getSiteIcon(entry.site)} {" "}
-                {entry.site} <br />
+                <strong>
+                  {getSiteIcon(entry.site)} {entry.site}
+                </strong>
+                <br />
                 <strong>Username:</strong> {entry.siteUser} <br />
                 <strong>Password:</strong> {entry.sitePass} <br />
                 <button onClick={() => handleDelete(index)}>Delete</button>

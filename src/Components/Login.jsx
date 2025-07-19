@@ -33,7 +33,6 @@ export default function Login() {
     );
 
     if (found) {
-      // ✅ Now we redirect to Saved Passwords FIRST
       navigate("/saved-passwords", {
         state: { message: "Login successful!" },
       });
