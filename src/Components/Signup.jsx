@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 
@@ -6,40 +6,40 @@ export default function Signup() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(""), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   const handleSignup = (e) => {
     e.preventDefault();
+    const username = e.target[0].value.trim();
+    const password = e.target[1].value.trim();
 
-    const username = e.target[0].value;
-    const email = e.target[1].value;
-    const password = e.target[2].value;
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const exists = users.find((u) => u.username === username);
 
-    // Get existing users from localStorage (or empty array)
-    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-
-    // Check if email already exists
-    const userExists = existingUsers.find(user => user.email === email);
-
-    if (userExists) {
-      setError("User already exists with this email.");
+    if (exists) {
+      setError("User already exists!");
       return;
     }
 
-    // Add new user
-    const newUser = { username, email, password };
-    existingUsers.push(newUser);
-    localStorage.setItem("users", JSON.stringify(existingUsers));
+    users.push({ username, password });
+    localStorage.setItem("users", JSON.stringify(users));
 
-    // Redirect to login with success message
-    navigate("/login", { state: { successMessage: "Signup successful! Please login." } });
+    navigate("/login", {
+      state: { message: "Signup successful! Please login." },
+    });
   };
 
   return (
     <div className="auth-container">
-      {error && <div className="alert error">{error}</div>}
       <h2>Sign Up</h2>
+      {error && <div className="alert error">{error}</div>}
       <form className="auth-form" onSubmit={handleSignup}>
         <input type="text" placeholder="Username" required />
-        <input type="email" placeholder="Email" required />
         <input type="password" placeholder="Password" required />
         <button type="submit">Sign Up</button>
         <p>
